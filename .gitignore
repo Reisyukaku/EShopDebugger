@@ -1,0 +1,5 @@
+.idea
+CMakeLists.txt
+*.bat
+build
+output
