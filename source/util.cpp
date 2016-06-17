@@ -4,21 +4,23 @@
 *   Copyright (c) 2015 All Rights Reserved
 */
 
-#include "misc.hpp"
+#include "util.hpp"
 
-static const std::string base64_chars = 
+using namespace std;
+
+static const string base64_chars = 
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-const char *base64Encode(unsigned char const* buffer, u32 len) {
-  std::string ret;
+string Util::base64Encode(u8 const* bytesToEnc, u32 bufLen) {
+  string ret;
   int i = 0, j = 0;
-  unsigned char temp[3];
-  unsigned char str[4];
+  u8 temp[3];
+  u8 str[4];
 
-  while (len--) {
-    temp[i++] = *(buffer++);
+  while (bufLen--) {
+    temp[i++] = *(bytesToEnc++);
     if (i == 3) {
       str[0] = (temp[0] & 0xfc) >> 2;
       str[1] = ((temp[0] & 0x03) << 4) + ((temp[1] & 0xf0) >> 4);
@@ -43,5 +45,5 @@ const char *base64Encode(unsigned char const* buffer, u32 len) {
     while((i++ < 3)) ret += '=';
   }
 
-  return ret.c_str();
+  return ret;
 }

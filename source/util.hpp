@@ -9,4 +9,9 @@
 #include <string>
 #include <citrus/core.hpp>
 
-const char *base64Encode(unsigned char const* bytes_to_encode, u32 in_len);
+using namespace std;
+
+class Util {
+public:
+    static string base64Encode(u8 const* bytesToEnc, u32 bufLen);
+};

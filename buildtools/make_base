@@ -67,50 +67,40 @@ ifeq ($(TARGET),3DS)
         TITLE := $(NAME)
     endif
 
-    REMOTE_IP ?= 127.0.0.1 # User-defined
-
     AR := $(DEVKITARM)/bin/arm-none-eabi-ar
     AS := $(DEVKITARM)/bin/arm-none-eabi-as
     CC := $(DEVKITARM)/bin/arm-none-eabi-gcc
     CXX := $(DEVKITARM)/bin/arm-none-eabi-g++
 
     PICASSO := $(DEVKITARM)/bin/picasso
-    SMDHTOOL := $(DEVKITARM)/bin/smdhtool
-    _3DSXTOOL := $(DEVKITARM)/bin/3dsxtool
-    _3DSLINK := $(DEVKITARM)/bin/3dslink
 
     ifeq ($(OS),Windows_NT)
         MAKEROM := $(BUILDTOOLS_DIR)/3ds/makerom.exe
         BANNERTOOL := $(BUILDTOOLS_DIR)/3ds/bannertool.exe
-        CITRA := $(BUILDTOOLS_DIR)/3ds/citra/citra.exe
     else
         UNAME_S := $(shell uname -s)
         ifeq ($(UNAME_S),Linux)
             MAKEROM := $(BUILDTOOLS_DIR)/3ds/makerom-linux
             BANNERTOOL := $(BUILDTOOLS_DIR)/3ds/bannertool-linux
-            CITRA := $(BUILDTOOLS_DIR)/3ds/citra/citra-linux
         endif
         ifeq ($(UNAME_S),Darwin)
             MAKEROM := $(BUILDTOOLS_DIR)/3ds/makerom-mac
             BANNERTOOL := $(BUILDTOOLS_DIR)/3ds/bannertool-mac
-            CITRA := $(BUILDTOOLS_DIR)/3ds/citra/citra-mac
         endif
     endif
 
     ifeq ($(LIBRARY),1)
         OUTPUT_FILES := $(OUTPUT_DIR)/lib/lib$(STRIPPED_NAME).a
     else
-        OUTPUT_FILES := $(OUTPUT_DIR)/$(STRIPPED_NAME).elf $(OUTPUT_DIR)/3ds/$(STRIPPED_NAME)/$(STRIPPED_NAME).smdh $(OUTPUT_DIR)/3ds/$(STRIPPED_NAME)/$(STRIPPED_NAME).3dsx $(OUTPUT_DIR)/$(STRIPPED_NAME).3ds $(OUTPUT_DIR)/$(STRIPPED_NAME).cia
+        OUTPUT_FILES := $(OUTPUT_DIR)/$(STRIPPED_NAME).elf $(OUTPUT_DIR)/$(STRIPPED_NAME).3ds $(OUTPUT_DIR)/$(STRIPPED_NAME).cia
     endif
 
     LD_FLAGS += -specs=3dsx.specs
     COMMON_CC_FLAGS += -mword-relocations -fomit-frame-pointer -ffast-math -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -DARM11 -D_3DS
 
-    _3DSXTOOL_FLAGS :=
     COMMON_MAKEROM_FLAGS := -rsf $(BUILDTOOLS_DIR)/3ds/template.rsf -target t -exefslogo -icon $(BUILD_DIR)/icon.icn -banner $(BUILD_DIR)/banner.bnr -DAPP_TITLE="$(TITLE)" -DAPP_PRODUCT_CODE="$(PRODUCT_CODE)" -DAPP_UNIQUE_ID="$(UNIQUE_ID)" -DAPP_SYSTEM_MODE="$(SYSTEM_MODE)" -DAPP_SYSTEM_MODE_EXT="$(SYSTEM_MODE_EXT)"
 
     ifneq ("$(wildcard $(ROMFS_DIR))","")
-        _3DSXTOOL_FLAGS += --romfs=$(ROMFS_DIR)
         COMMON_MAKEROM_FLAGS += -DAPP_ROMFS="$(ROMFS_DIR)"
     endif
 
@@ -172,10 +162,6 @@ else
 run: $(OUTPUT_FILES) $(OUTPUT_ZIP_FILE)
 	@echo "Running..."
 	@$(CITRA) $(RUN_FLAGS) $(OUTPUT_DIR)/$(STRIPPED_NAME).elf
-
-runhw: $(OUTPUT_FILES) $(OUTPUT_ZIP_FILE)
-	@echo "Running..."
-	@$(_3DSLINK) --address $(REMOTE_IP) $(OUTPUT_DIR)/3ds/$(STRIPPED_NAME)/$(STRIPPED_NAME).3dsx
 endif
 
 $(BUILD_DIR)/%.shbin.o: $(BUILD_DIR)/%.shbin.c
@@ -210,14 +196,6 @@ $(BUILD_DIR)/%.shbin.c: %.shlist
 %.icn: $(ICON)
 	@echo $@
 	@$(BANNERTOOL) makesmdh -s "$(TITLE)" -l "$(TITLE)" -p "$(AUTHOR)" -i $(ICON) $(ICON_FLAGS) -o $@ > /dev/null
-
-%.smdh: $(ICON)
-	@echo $@
-	@$(SMDHTOOL) --create "$(TITLE)" "$(DESCRIPTION)" "$(AUTHOR)" $(ICON) $@
-
-$(OUTPUT_DIR)/3ds/$(STRIPPED_NAME)/%.3dsx: $(OUTPUT_DIR)/%.elf $(OUTPUT_DIR)/3ds/$(STRIPPED_NAME)/%.smdh
-	@echo $@
-	@$(_3DSXTOOL) $< $@ --smdh=$(word 2,$^) $(_3DSXTOOL_FLAGS)
 
 %.3ds: %.elf $(BUILD_DIR)/banner.bnr $(BUILD_DIR)/icon.icn
 	@echo $@
