@@ -4,10 +4,9 @@
 *   Copyright (c) 2015 All Rights Reserved
 */
 
-#include <stdio.h>
-#include <citrus/core.hpp>
+#include "fs.hpp"
 
-void writeFile(const char *filename, void *buffer, u32 size){
+void FS::writeFile(const char *filename, void *buffer, u32 size){
     FILE *fp;
     fp = fopen(filename, "wb");
 	fwrite(buffer, 1, size, fp);

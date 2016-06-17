@@ -4,8 +4,7 @@
 *   Copyright (c) 2015 All Rights Reserved
 */
 
-#include <string.h>
-#include <citrus/core.hpp>
+#include "misc.hpp"
 
 static const std::string base64_chars = 
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

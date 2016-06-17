@@ -5,6 +5,20 @@
 */ 
 #pragma once
 
-void consoleClear(u32 startOff);
-void flush(void);
-void printCTR(u32 font_pt, u32 color, std::string message, ...);
+#include <cstdio>
+#include <string>
+#include <cstdarg>
+#include <vector>
+#include <cstddef>
+#include <citrus/core.hpp>
+#include <citrus/gpu.hpp>
+#include <citrus/gput.hpp>
+
+class Draw {
+private:
+    static u32 ypos, xpos;
+public:
+    static void consoleClear(u32);
+    static void flush(void);
+    static void printCTR(u32, u32, std::string, ...);
+};

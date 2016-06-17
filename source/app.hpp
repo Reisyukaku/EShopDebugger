@@ -6,4 +6,10 @@
 
 #pragma once
 
-void launchApp(u8 flags, u64 tid);
+#include <3ds.h>
+#include <cstring>
+
+class App {
+public:
+    static void launch(u8, u64);
+};

@@ -6,4 +6,10 @@
 
 #pragma once
 
-void writeFile(const char *filename, void *buffer, u32 size);
+#include <cstdio>
+#include <citrus/core.hpp>
+
+class FS {
+public:
+    static void writeFile(const char *, void *, u32);
+};

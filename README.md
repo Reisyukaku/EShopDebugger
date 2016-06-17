@@ -9,3 +9,6 @@ Requires [citrus](https://github.com/Steveice10/citrus) and its dependencies to 
  Steveice10 for the homebrew template.
     
  Me (Rei) for coding everything else.
+ 
+ **License**
+ This software is licensed under GPLv3.

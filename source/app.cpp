@@ -4,14 +4,11 @@
 *   Copyright (c) 2015 All Rights Reserved
 */
 
-#include <3ds.h>
-#include <string.h>
+#include "app.hpp"
 
-//APT stuff
-u8 buf0[0x300];
-u8 buf1[0x20];
-
-void launchApp(u8 flags, u64 tid){
+void App::launch(u8 flags, u64 tid){
+    u8 buf0[0x300];
+    u8 buf1[0x20];
     memset(buf0, 0, 0x300);
     memset(buf1, 0, 0x20);
     
