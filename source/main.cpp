@@ -16,7 +16,7 @@
 #include "draw.hpp"
 #include "app.hpp"
 #include "fs.hpp"
-#include "misc.hpp"
+#include "util.hpp"
 #include "service.hpp"
 
 using namespace ctr;
@@ -55,7 +55,9 @@ int main(int argc, char **argv) {
         Draw::printCTR(font, 0xFFFFFF, "Region: %s", (char*)Service::getConsoleRegion().c_str());
         Draw::printCTR(font, 0xFFFFFF, "Device Model: %s", (char*)Service::getConsoleModel().c_str());
         Draw::printCTR(font, 0xFFFFFF, "Device Serial: %s", (char*)Service::getSerialNum().c_str());
-        Draw::printCTR(font, 0xFFFFFF, "Principal ID: %llu", Service::getPrincipalId());     
+        Draw::printCTR(font, 0xFFFFFF, "Principal ID: %llu", Service::getPrincipalId());
+        Draw::printCTR(font, 0xFFFFFF, "Device cert: ");
+        Draw::printCTR(font, 0xFFFFFF, "%s", (char*)Service::getDeviceCert().c_str()); 
         Draw::flush();
         
         //Get HID
@@ -63,12 +65,6 @@ int main(int argc, char **argv) {
             case hid::BUTTON_A:
                 printf("Launching EShop...\n");
                 App::launch(0, 0x0004001000021900LL);
-                break;
-            case hid::BUTTON_B:
-                printf("Done!\n");
-                break;
-            case hid::BUTTON_Y:
-                printf("Dumping credentials...\n");
                 break;
             default:
                 break;

@@ -28,11 +28,11 @@ string Service::getFirmVersion(void){
     return str;
 }
 
-/*u8 *Service::getCTCert(void){
-    u8 *tmp;//[0x180];
-    //AMNet_GetDeviceCert(tmp);
-    return tmp;
-}*/
+string Service::getDeviceCert(void){
+    u8 cert[0x180];
+    AMNet_GetDeviceCert(cert);
+    return Util::base64Encode(cert, 0x180);
+}
 
 string Service::getSerialNum(void){
     char tmp[0x10];
@@ -58,11 +58,5 @@ string Service::getConsoleModel(void){
 u64 Service::getPrincipalId(void){
     u64 tmp = 0;
     ACT_GetAccountInfo(&tmp, 0x4, 0xC);
-    return tmp;
-}
-
-u32 Service::getAge(void){
-    u32 tmp = 0;
-    ACT_GetAccountInfo(&tmp, 0x2, 0x2C);
     return tmp;
 }
