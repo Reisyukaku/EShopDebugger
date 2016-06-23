@@ -19,8 +19,8 @@ NAME := EShopDebugger
 
 BUILD_DIR := build
 OUTPUT_DIR := output
-INCLUDE_DIRS := include
-SOURCE_DIRS := source
+INCLUDE_DIRS := include include/services
+SOURCE_DIRS := source source/services
 
 EXTRA_OUTPUT_FILES :=
 

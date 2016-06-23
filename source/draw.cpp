@@ -38,6 +38,16 @@ void Draw::printCTR(u32 font_pt, u32 color, std::string message, ...){
     std::string buffer = std::string {temp.data(), len};
 
     //Draw string
-    gput::drawString(buffer.c_str(), xpos, ypos, font_pt, font_pt, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
-    ypos -= (10 + (gput::getStringHeight(buffer.c_str(), font_pt)/2));
+    int splitLen = (400/font_pt) - 1;
+    int strAmount = buffer.length() / splitLen;
+    std::vector<std::string> ret;
+    for (auto i = 0; i < strAmount; i++) ret.push_back(buffer.substr(i * splitLen, splitLen));
+    if (buffer.length() % splitLen != 0) ret.push_back(buffer.substr(splitLen * strAmount));
+
+    for(auto retStr : ret) {
+        if(ypos >= 10){
+            gput::drawString(retStr.c_str(), xpos, ypos, font_pt, font_pt, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
+            ypos -= (10 + (gput::getStringHeight(retStr.c_str(), font_pt)/2));
+        }
+    }
 }

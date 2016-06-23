@@ -13,7 +13,7 @@ static const string base64_chars =
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-string Util::base64Encode(u8 const* bytesToEnc, u32 bufLen) {
+string Util::base64Encode(u8 const* bytesToEnc, size_t bufLen) {
   string ret;
   int i = 0, j = 0;
   u8 temp[3];
