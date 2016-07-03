@@ -8,7 +8,7 @@
 
 #include <string>
 #include <cstdint>
-#include <citrus/core.hpp>
+#include <3ds.h>
 
 using namespace std;
 

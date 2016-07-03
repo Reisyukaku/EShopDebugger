@@ -10,7 +10,7 @@
 #include <cstdarg>
 #include <vector>
 #include <cstddef>
-#include <citrus/core.hpp>
+#include <3ds.h>
 #include <citrus/gpu.hpp>
 #include <citrus/gput.hpp>
 

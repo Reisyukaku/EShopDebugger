@@ -7,9 +7,9 @@
 #pragma once
 
 #include <cstdio>
-#include <citrus/core.hpp>
+#include <3ds.h>
 
 class FS {
 public:
-    static void writeFile(const char *, void *, u32);
+    static void WriteFile(const char *, void *, u32);
 };

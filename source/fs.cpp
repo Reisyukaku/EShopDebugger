@@ -6,7 +6,7 @@
 
 #include "fs.hpp"
 
-void FS::writeFile(const char *filename, void *buffer, u32 size){
+void FS::WriteFile(const char *filename, void *buffer, u32 size){
     FILE *fp;
     fp = fopen(filename, "wb");
 	fwrite(buffer, 1, size, fp);
