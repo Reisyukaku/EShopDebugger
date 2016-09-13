@@ -32,3 +32,14 @@ string CFG::GetConsoleModel(void){
     CFGU_GetSystemModel(&tmp);
     return models[tmp];
 }
+
+string CFG::GetLanguageCodeA2(void){
+    u8 lang = 0;
+    string code;
+    string langList[] = {"ja", "en", "fr", "it", "es", "zh", "ko", "nl", "pt", "ru", "zh"};
+    CFGU_GetSystemLanguage(&lang);
+    if(!(lang >= 0xC))
+        code = langList[lang];
+    string str(code);
+    return str;
+}

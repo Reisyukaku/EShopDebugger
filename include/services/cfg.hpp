@@ -13,4 +13,5 @@ public:
     static string GetSerialNum(void);
     static string GetConsoleRegion(void);
     static string GetConsoleModel(void);
+    static string GetLanguageCodeA2(void);
 };
