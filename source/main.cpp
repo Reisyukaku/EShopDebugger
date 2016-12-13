@@ -206,14 +206,15 @@ int main(int argc, char **argv) {
                 }
                 break;
             }
-            case hid::BUTTON_DRIGHT:
-            {
-
-                break;
-            }
             case hid::BUTTON_B:
             {
-                printf("Testing NIM device id: %s\n", (char*)NIM::GetInfraDeviceId().c_str());
+                printf("Dumping CTCert: ");
+                Result ret = 0;
+                u8 cert[0x180];
+                ret = AMNet_GetDeviceCert(cert);
+                printf("%s\n", ret == 0 ? "\x1b[32m SUCCESS!\x1b[0m" : "\x1b[31m FAIlED!\x1b[0m");
+                FS::WriteFile("/CTCert.bin", cert, 0x180);
+                printf("Done!\n");
                 break;
             }
             default:
